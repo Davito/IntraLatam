@@ -48,15 +48,15 @@ export default function DataTable({ documents, onRowClick, selectedDocId }: { do
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider">ID Referencia</th>
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider">Tipo Orden</th>
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider">Fecha Contable</th>
-              <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-right">Monto</th>
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-center">Estado</th>
+              <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-right">Monto</th>
               <th className="px-4 py-4 w-10"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-color">
             {documents.map((doc) => (
-              <tr 
-                key={doc.id} 
+              <tr
+                key={doc.id}
                 onClick={() => onRowClick(doc)}
                 className={`group transition-colors cursor-pointer relative ${selectedDocId === doc.id ? 'bg-primary/5' : 'hover:bg-background-light/80'}`}
               >
@@ -67,11 +67,11 @@ export default function DataTable({ documents, onRowClick, selectedDocId }: { do
                 </td>
                 <td className="px-6 py-4 text-sm text-text-secondary">{doc.type}</td>
                 <td className="px-6 py-4 text-sm text-text-secondary">{doc.date}</td>
-                <td className="px-6 py-4 text-sm font-medium text-text-main text-right">
-                  ${doc.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </td>
                 <td className="px-6 py-4 text-center">
                   {getStatusBadge(doc.status)}
+                </td>
+                <td className="px-6 py-4 text-sm font-medium text-text-main text-right">
+                  ${doc.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
                 <td className="px-4 py-4 text-right">
                   <button className="text-text-secondary hover:text-text-main p-1 rounded hover:bg-background-light transition-colors">
