@@ -1,0 +1,5 @@
+{
+  "name": "Monitor Intralatam",
+  "description": "Dashboard for monitoring Intralatam operations, including processing status, detailed views, and mass reprocessing capabilities.",
+  "requestFramePermissions": []
+}
