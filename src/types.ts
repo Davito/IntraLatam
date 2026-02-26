@@ -8,3 +8,16 @@ export interface Document {
   status: DocumentStatus;
   site: string;
 }
+
+export type KpiType = 'Total' | 'WIP' | 'Error' | 'OnHold' | 'OK';
+
+export interface KpiDetailData {
+  type: KpiType;
+  title: string;
+  count: number;
+  slaPercent: number;
+  volumeUsd: number;
+  siteDistribution: { site: string; percentage: number }[];
+  flowComposition: { order1: number; order2: number };
+  commonErrors?: { message: string; count: number }[];
+}

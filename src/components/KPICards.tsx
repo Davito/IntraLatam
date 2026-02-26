@@ -1,9 +1,19 @@
 import React from 'react';
+import { KpiType } from '../types';
 
-export default function KPICards({ onStatusClick, onErrorClick }: { onStatusClick: () => void, onErrorClick: () => void }) {
+interface KPICardsProps {
+  onStatusClick: () => void;
+  onErrorClick: () => void;
+  onKpiClick: (kpi: KpiType) => void;
+}
+
+export default function KPICards({ onStatusClick, onErrorClick, onKpiClick }: KPICardsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-      <div className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-primary/30 transition-colors cursor-default group">
+      <div
+        className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-primary/30 transition-colors cursor-pointer group"
+        onClick={() => onKpiClick('Total')}
+      >
         <div className="flex justify-between items-start">
           <p className="text-text-secondary text-sm font-medium">Total Operaciones</p>
           <span className="material-symbols-outlined text-text-secondary/50 group-hover:text-primary transition-colors text-lg">stacked_bar_chart</span>
@@ -15,8 +25,11 @@ export default function KPICards({ onStatusClick, onErrorClick }: { onStatusClic
           </span>
         </div>
       </div>
-      
-      <div className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-info/30 transition-colors cursor-default group">
+
+      <div
+        className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-info/30 transition-colors cursor-pointer group"
+        onClick={() => onKpiClick('WIP')}
+      >
         <div className="flex justify-between items-start">
           <p className="text-text-secondary text-sm font-medium">En Proceso (WIP)</p>
           <span className="material-symbols-outlined text-text-secondary/50 group-hover:text-info transition-colors text-lg">hourglass_top</span>
@@ -29,9 +42,12 @@ export default function KPICards({ onStatusClick, onErrorClick }: { onStatusClic
         </div>
       </div>
 
-      <div 
+      <div
         className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-error/30 transition-colors cursor-pointer group"
-        onClick={onErrorClick}
+        onClick={(e) => {
+          // We keep onErrorClick logic if needed, but the main goal is Drill-down panel
+          onKpiClick('Error');
+        }}
       >
         <div className="flex justify-between items-start">
           <p className="text-text-secondary text-sm font-medium">Error (Acción requerida)</p>
@@ -45,7 +61,10 @@ export default function KPICards({ onStatusClick, onErrorClick }: { onStatusClic
         </div>
       </div>
 
-      <div className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-warning/30 transition-colors cursor-default group">
+      <div
+        className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-warning/30 transition-colors cursor-pointer group"
+        onClick={() => onKpiClick('OnHold')}
+      >
         <div className="flex justify-between items-start">
           <p className="text-text-secondary text-sm font-medium">En Espera (On Hold)</p>
           <span className="material-symbols-outlined text-text-secondary/50 group-hover:text-warning transition-colors text-lg">pause_circle</span>
@@ -56,9 +75,12 @@ export default function KPICards({ onStatusClick, onErrorClick }: { onStatusClic
         </div>
       </div>
 
-      <div 
+      <div
         className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-success/30 transition-colors cursor-pointer group"
-        onClick={onStatusClick}
+        onClick={(e) => {
+          // Keep legacy onClick function to not break app, though drill-down is the goal
+          onKpiClick('OK');
+        }}
       >
         <div className="flex justify-between items-start">
           <p className="text-text-secondary text-sm font-medium">Contabilizado (OK)</p>

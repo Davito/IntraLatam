@@ -8,8 +8,9 @@ import StatusDetailSidebar from './components/StatusDetailSidebar';
 import ErrorDetailSidebar from './components/ErrorDetailSidebar';
 import MassReprocessModal from './components/MassReprocessModal';
 import JSONUploadModal from './components/JSONUploadModal';
-import { documents } from './data';
-import { Document } from './types';
+import KpiDetailSidebar from './components/KpiDetailSidebar';
+import { documents, mockKpiDetails } from './data';
+import { Document, KpiType } from './types';
 
 export default function App() {
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
@@ -19,17 +20,25 @@ export default function App() {
   const [isMassReprocessOpen, setIsMassReprocessOpen] = useState(false);
   const [isJSONUploadOpen, setIsJSONUploadOpen] = useState(false);
 
+  // New states for Drill-down Analítico panel
+  const [selectedKpi, setSelectedKpi] = useState<KpiType | null>(null);
+  const [isKpiPanelOpen, setIsKpiPanelOpen] = useState(false);
+
   return (
     <div className="bg-background-light text-text-main antialiased h-screen flex flex-col overflow-hidden relative">
       <Header onMassReprocess={() => setIsMassReprocessOpen(true)} />
-      
+
       <div className="flex flex-1 overflow-hidden relative">
         <main className="flex-1 flex flex-col min-w-0 overflow-y-auto p-6 md:p-8">
-          <KPICards 
-            onStatusClick={() => setIsStatusDetailOpen(true)} 
+          <KPICards
+            onStatusClick={() => setIsStatusDetailOpen(true)}
             onErrorClick={() => setIsErrorDetailOpen(true)}
+            onKpiClick={(kpi: KpiType) => {
+              setSelectedKpi(kpi);
+              setIsKpiPanelOpen(true);
+            }}
           />
-          
+
           <div className="flex flex-col gap-4 relative z-10 mb-4">
             <div className="flex flex-wrap gap-4 items-end">
               <div className="flex-1 min-w-[200px] max-w-sm">
@@ -67,7 +76,7 @@ export default function App() {
                   <input type="date" className="block w-full rounded-lg border-border-color bg-surface shadow-sm focus:border-primary focus:ring-primary/20 sm:text-sm pl-10 py-2.5 transition-shadow text-text-secondary outline-none" />
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setIsFiltersOpen(true)}
                 className="mb-0.5 px-4 py-2.5 rounded-lg border border-border-color bg-surface text-text-main text-sm font-medium hover:bg-background-light shadow-sm flex items-center gap-2 transition-colors"
               >
@@ -77,22 +86,22 @@ export default function App() {
             </div>
           </div>
 
-          <DataTable 
-            documents={documents} 
-            onRowClick={(doc) => setSelectedDoc(doc)} 
+          <DataTable
+            documents={documents}
+            onRowClick={(doc) => setSelectedDoc(doc)}
             selectedDocId={selectedDoc?.id}
           />
         </main>
 
         {/* Sidebars */}
         {selectedDoc && (
-          <DocumentDetailSidebar 
-            document={selectedDoc} 
-            onClose={() => setSelectedDoc(null)} 
+          <DocumentDetailSidebar
+            document={selectedDoc}
+            onClose={() => setSelectedDoc(null)}
             onJSONUpload={() => setIsJSONUploadOpen(true)}
           />
         )}
-        
+
         {isFiltersOpen && (
           <>
             <div className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm z-30 transition-opacity" onClick={() => setIsFiltersOpen(false)}></div>
@@ -111,6 +120,13 @@ export default function App() {
           <>
             <div className="fixed inset-0 bg-slate-900/20 backdrop-blur-[2px] z-40 transition-opacity duration-300" onClick={() => setIsErrorDetailOpen(false)}></div>
             <ErrorDetailSidebar onClose={() => setIsErrorDetailOpen(false)} />
+          </>
+        )}
+
+        {isKpiPanelOpen && selectedKpi && (
+          <>
+            <div className="fixed inset-0 bg-slate-900/20 backdrop-blur-[2px] z-40 transition-opacity duration-300" onClick={() => setIsKpiPanelOpen(false)}></div>
+            <KpiDetailSidebar data={mockKpiDetails[selectedKpi]} onClose={() => setIsKpiPanelOpen(false)} />
           </>
         )}
       </div>
