@@ -48,7 +48,7 @@ export default function DataTable({ documents, onRowClick, selectedDocId }: { do
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider">ID Referencia</th>
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider">Tipo Orden</th>
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider">Fecha Contable</th>
-              <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-center">Estado</th>
+              <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-left">Estado</th>
               <th className="px-6 py-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-right">Monto</th>
               <th className="px-4 py-4 w-10"></th>
             </tr>
@@ -67,7 +67,7 @@ export default function DataTable({ documents, onRowClick, selectedDocId }: { do
                 </td>
                 <td className="px-6 py-4 text-sm text-text-secondary">{doc.type}</td>
                 <td className="px-6 py-4 text-sm text-text-secondary">{doc.date}</td>
-                <td className="px-6 py-4 text-center">
+                <td className="px-6 py-4 text-left">
                   {getStatusBadge(doc.status)}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium text-text-main text-right">
