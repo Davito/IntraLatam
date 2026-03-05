@@ -2,12 +2,10 @@ import React from 'react';
 import { KpiType } from '../types';
 
 interface KPICardsProps {
-  onStatusClick: () => void;
-  onErrorClick: () => void;
   onKpiClick: (kpi: KpiType) => void;
 }
 
-export default function KPICards({ onStatusClick, onErrorClick, onKpiClick }: KPICardsProps) {
+export default function KPICards({ onKpiClick }: KPICardsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
       <div
@@ -44,10 +42,7 @@ export default function KPICards({ onStatusClick, onErrorClick, onKpiClick }: KP
 
       <div
         className="bg-surface rounded-xl p-5 border border-border-color shadow-card flex flex-col gap-1 hover:border-error/30 transition-colors cursor-pointer group"
-        onClick={(e) => {
-          // We keep onErrorClick logic if needed, but the main goal is Drill-down panel
-          onKpiClick('Error');
-        }}
+        onClick={() => onKpiClick('Error')}
       >
         <div className="flex justify-between items-start">
           <p className="text-text-secondary text-sm font-medium">Error (Acción requerida)</p>
